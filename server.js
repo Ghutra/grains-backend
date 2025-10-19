@@ -1,4 +1,9 @@
-const express = require('express');
+
+app.get('/verify-supplier', (req, res) => {
+  res.redirect(301, '/api/verify-supplier');
+});
+const express = 
+require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
