@@ -1,13 +1,4 @@
-fetch('/api/stock')
-  .then(res => res.json())
-  .then(data => renderStock(data));
-
-fetch('/api/bookings')
-  .then(res => res.json())
-  .then(data => renderBookings(data));
-
-// ✅ Static Data (will be dynamic 
-soon)
+// ✅ Static Data (will be dynamic soon)
 const availableStock = [
   {
     title: "Irri 6 Broken 5%",
