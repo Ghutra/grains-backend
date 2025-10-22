@@ -3,11 +3,9 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static frontend
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Modular routes
-app.use('/api/alli', require('./routes/allya'));
+app.use('/api/alliya', require('./routes/alliya'));
 app.use('/api/shop', require('./routes/shop'));
 app.use('/api/bookings', require('./routes/booking'));
 app.use('/api/market', require('./routes/marketPulse'));
