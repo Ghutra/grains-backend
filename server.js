@@ -1,37 +1,18 @@
 const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-// ✅ Verified supplier route
-app.get('/api/verify-supplier', (req, res) => {
-  res.json({ verified: true, supplier: 'Al Noor Grains' });
-});
-
-// ✅ Optional root message
-app.get('/', (req, res) => {
-  res.send('Grains Backend is live. Alliya is listening.');
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-const express = require('express');
-const app = express();
 const path = require('path');
+const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Serve static frontend
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/api/stock', (req, res) => {
-  res.sendFile(path.join(__dirname, 'api', 'stock.json'));
-});
-
-app.get('/api/bookings', (req, res) => {
-  res.sendFile(path.join(__dirname, 'api', 'bookings.json'));
-});
+// Modular routes
+app.use('/api/alli', require('./routes/allya'));
+app.use('/api/shop', require('./routes/shop'));
+app.use('/api/bookings', require('./routes/booking'));
+app.use('/api/market', require('./routes/marketPulse'));
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Grains Hub backend running on port ${PORT}`);
 });
 
