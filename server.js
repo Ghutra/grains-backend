@@ -9,7 +9,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ✅ Correct route imports
 app.use('/api/alliya', require('./routes/alliya'));
 app.use('/api/shop', require('./routes/shop'));
-app.use('/api/bookings', require('./routes/bookings'));
 
 app.listen(PORT, () => {
   console.log(`Grains Hub backend running on port ${PORT}`);
