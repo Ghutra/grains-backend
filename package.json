@@ -1,32 +1,11 @@
 {
   "name": "grains-backend",
   "version": "1.0.0",
-  "description": "Backend for Grains Hub — serving Alliya, Shop, Booking, 
-and Market Pulse.",
+  "description": "Backend for Grains Hub",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Ghutra/grains-backend.git"
-  },
-  "keywords": [
-    "grains",
-    "dubai",
-    "b2b",
-    "rice",
-    "backend",
-    "api",
-    "booking",
-    "alliya"
-  ],
-  "author": "SHAHID BASHIR",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Ghutra/grains-backend/issues"
-  },
-  "homepage": "https://github.com/Ghutra/grains-backend#readme",
   "engines": {
     "node": "18.x"
   },
