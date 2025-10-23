@@ -1,4 +1,3 @@
-
 {
   "name": "grains-backend",
   "version": "1.0.0",
@@ -29,7 +28,7 @@ and Market Pulse.",
   },
   "homepage": "https://github.com/Ghutra/grains-backend#readme",
   "engines": {
-    "node": ">=16"
+    "node": "18.x"
   },
   "dependencies": {
     "express": "^4.18.2"
