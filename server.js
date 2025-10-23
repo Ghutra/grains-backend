@@ -7,7 +7,8 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ✅ Correct route imports
-app.use('/api/alliya', require('./routes/alliya'));
+
+app.use('/api/alliya', require('./Alliya'));
 app.use('/api/shop', require('./routes/shop'));
 app.use('/api/booking', require('./routes/booking'));
 
