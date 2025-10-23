@@ -3,9 +3,10 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Serve static frontend (optional)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ✅ Only include existing route files
+// ✅ Correct route imports
 app.use('/api/alliya', require('./routes/alliya'));
 app.use('/api/shop', require('./routes/shop'));
 app.use('/api/bookings', require('./routes/bookings'));
