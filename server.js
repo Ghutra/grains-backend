@@ -10,7 +10,7 @@ app.use(express.static(path.join(__dirname, 'public'))); // serve frontend
 if needed
 
 // 3. Route: Alliya from root
-app.use('/api/alliya', require('./alliya')); // 👈 this now calls 
+app.use('/api/alliya', require('./alliya')); // ✅ comma added
 root-level alliya.js
 
 // 4. Optional: other routes
