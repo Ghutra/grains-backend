@@ -82,7 +82,7 @@ router.get('/', (req, res) => {
     res.json({ reply });
   } else {
     res.json({
-      reply: `Aliya couldn’t verify this. Try <a 
+      reply: `Alliya couldn’t verify this. Try <a 
 href="https://www.bing.com/search?q=${encodeURIComponent(query)}" 
 target="_blank" style="color:#0056B3;">Copilot</a> or message us on <a 
 href="https://wa.me/971585521976" target="_blank" 
