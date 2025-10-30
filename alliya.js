@@ -1,14 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const query = (req.query.q || '').toLowerCase().trim();
-let reply = replyDatabase[query];
-
-// Fuzzy fallback
-if (!reply) {
-  const keys = Object.keys(replyDatabase);
-  const match = keys.find(k => query.includes(k));
-  if (match) reply = replyDatabase[match];
-}
 
 // ✅ Refined Keyword–Response Map
 const replyDatabase = {
