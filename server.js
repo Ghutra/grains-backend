@@ -1,5 +1,4 @@
-//app.use('/api/alliya', require('./alliya'));
- 1. Import modules
+// 1. Import modules
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -7,17 +6,10 @@ const PORT = process.env.PORT || 3000;
 
 // 2. Middleware
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public'))); // serve frontend 
-if needed
+app.use(express.static(path.join(__dirname, 'public'))); // serve frontend if needed
 
 // 3. Route: Alliya from root
-<<<<<<< HEAD
-app.use('/api/alliya', require('./alliya')); // ✅ comma added
-=======
-app.use('/api/alliya', require('./alliya'));
- // 👈 this now calls 
->>>>>>> a6b0637 (Fix syntax error in server.js)
-root-level alliya.js
+app.use('/api/alliya', require('./alliya')); // ✅ Clean and correct
 
 // 4. Optional: other routes
 // app.use('/api/shop', require('./routes/shop'));
