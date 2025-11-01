@@ -1,3 +1,6 @@
+const cors = require('cors');
+app.use(cors());
+
 // 1. Import modules
 const express = require('express');
 const path = require('path');
