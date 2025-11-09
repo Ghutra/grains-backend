@@ -1,14 +1,13 @@
-// alliya.js
 const express = require('express');
-const router = express.Router();
-const fs = require('fs');
-const path = require('path');
-const fetch = require('node-fetch'); // Install: npm install node-fetch@2
+const cors = require('cors');
+const fetch = require('node-fetch'); // npm install node-fetch@2
 
-// Load stock.json from your site (GitHub Pages)
+const app = express();
+app.use(cors());
+app.use(express.json());
+
 const STOCK_URL = 'https://grains.ae/assets/data/stock.json';
 
-// In-memory cache (refresh every 60s)
 let cachedStock = [];
 let lastFetch = 0;
 
@@ -29,7 +28,6 @@ async function getStock() {
   return cachedStock;
 }
 
-// Static knowledge base
 const knowledge = [
   {
     keywords: ['compliance', 'scan', 'trust', 'verified', 'cisco', 'norton'],
@@ -53,16 +51,15 @@ const knowledge = [
   }
 ];
 
-// Main Alliya route
-router.get('/', async (req, res) => {
+app.get('/api/alliya', async (req, res) => {
   const query = (req.query.q || '').toLowerCase().trim();
   if (!query) {
     return res.json({ reply: 'Ask me about grains, FCL, compliance...' });
   }
 
   const stock = await getStock();
+  const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Asia/Dubai' });
 
-  // 1. Try stock match
   const stockMatch = stock.find(item =>
     item.name.toLowerCase().includes(query) ||
     item.origin.toLowerCase().includes(query) ||
@@ -70,21 +67,22 @@ router.get('/', async (req, res) => {
   );
 
   if (stockMatch) {
-    const msg = `${stockMatch.name} from ${stockMatch.origin}: ${stockMatch.price} (${stockMatch.stock} available). <a href="https://wa.me/971585521976?text=Inquiry: 
-${encodeURIComponent(stockMatch.name)}">Book via WhatsApp</a>`;
+    const msg = `${stockMatch.name} from ${stockMatch.origin}: ${stockMatch.price} (${stockMatch.stock} available). <a href="https://wa.me/971585521976?text=Inquiry: ${encodeURIComponent(stockMatch.name)}">Book via WhatsApp</a><br><small>Verified: ${timestamp}</small>`;
     return res.json({ reply: msg });
   }
 
-  // 2. Try knowledge base
   const kbMatch = knowledge.find(k => k.keywords.some(kw => query.includes(kw)));
   if (kbMatch) {
     return res.json({ reply: kbMatch.reply });
   }
 
-  // 3. Fallback
+  console.log('Fallback query:', query);
   res.json({
     reply: `I couldn't find "${query}". Try: "1121 rice", "FCL booking", "compliance". <br><a href="https://wa.me/971585521976?text=${encodeURIComponent(query)}">Ask on WhatsApp</a>`
   });
 });
 
-module.exports = router;
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
