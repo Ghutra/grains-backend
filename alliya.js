@@ -1,9 +1,9 @@
-// alliya.js — UPGRADED WITH LIVE STOCK + YOUR DATABASE
+// alliya.js — FINAL VERSION FOR RENDER
 const express = require('express');
 const router = express.Router();
-const fetch = require('node-fetch'); // npm install node-fetch@2
+const fetch = require('node-fetch'); // ← THIS LINE IS KEY
 
-// === 1. YOUR EXISTING DATABASE (Keep it!) ===
+// === YOUR DATABASE ===
 const replyDatabase = {
   "zia international": "Verified: Zia International, Madina Town, Faisalabad.",
   "adam international": "Verified: Adam International, Faisalabad.",
@@ -42,7 +42,9 @@ const replyDatabase = {
   "founder": "Founder: Shahid Bashir. Based in Dubai and Lahore, leading with trust and emotional discipline."
 };
 
-// === 2. LIVE STOCK FROM SITE (Auto-refresh every 60s) ===
+// === LIVE STOCK (OPTIONAL - REMOVE IF NOT READY) ===
+// Comment out this whole section if stock.json not ready
+/*
 const STOCK_URL = 'https://grains.ae/assets/data/stock.json';
 let cachedStock = [];
 let lastFetch = 0;
@@ -55,7 +57,6 @@ async function getStock() {
       if (res.ok) {
         cachedStock = await res.json();
         lastFetch = now;
-        console.log('Stock refreshed:', cachedStock.length, 'items');
       }
     } catch (err) {
       console.error('Stock fetch failed:', err.message);
@@ -63,41 +64,39 @@ async function getStock() {
   }
   return cachedStock;
 }
+*/
 
-// === 3. SMART FALLBACK ===
-function suggestCorrection(query) {
-  const q = query.toLowerCase();
-  if (q.includes("grainz") || q.includes("grin hub")) {
-    return "Did you mean Grains Hub?";
-  }
-  return `Alliya couldn’t verify this. Try <a href="https://wa.me/971585521976?text=${encodeURIComponent(query)}" style="color:#25D366;">WhatsApp</a>`;
+// === FALLBACK ===
+function fallback(query) {
+  return `Alliya couldn’t verify "${query}". <a href="https://wa.me/971585521976?text=${encodeURIComponent(query)}" style="color:#25D366;">Ask on WhatsApp</a>`;
 }
 
-// === 4. MAIN ROUTE ===
+// === ROUTE ===
 router.get('/', async (req, res) => {
   const query = (req.query.q || '').toLowerCase().trim();
-  if (!query) return res.json({ reply: 'Ask about rice, FCL, suppliers...' });
+  if (!query) return res.json({ reply: 'Ask about rice, suppliers, FCL...' });
 
-  // 1. Check your database first
+  // 1. Check database
   if (replyDatabase[query]) {
     return res.json({ reply: replyDatabase[query] });
   }
 
-  // 2. Search live stock
+  // 2. Optional: Stock search (commented out until stock.json is live)
+  /*
   const stock = await getStock();
   const stockMatch = stock.find(item =>
     item.name.toLowerCase().includes(query) ||
-    item.origin.toLowerCase().includes(query) ||
-    item.type.toLowerCase().includes(query)
+    item.origin.toLowerCase().includes(query)
   );
-
   if (stockMatch) {
-    const msg = `${stockMatch.name} from ${stockMatch.origin}: ${stockMatch.price} (${stockMatch.stock} available). <a href="https://wa.me/971585521976?text=Inquiry: ${encodeURIComponent(stockMatch.name)}">Book via WhatsApp</a>`;
-    return res.json({ reply: msg });
+    return res.json({
+      reply: `${stockMatch.name} from ${stockMatch.origin}: ${stockMatch.price} (${stockMatch.stock} available). <a href="https://wa.me/971585521976?text=Inquiry: ${encodeURIComponent(stockMatch.name)}">Book</a>`
+    });
   }
+  */
 
   // 3. Fallback
-  res.json({ reply: suggestCorrection(query) });
+  res.json({ reply: fallback(query) });
 });
 
 module.exports = router;
