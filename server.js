@@ -50,6 +50,9 @@ const knowledge = [
     reply: 'Live prices every 60s. Basmati 1121: AED 160/kg. Irri 6: AED 60/kg. <a href="/pulse">View Pulse</a>'
   }
 ];
+app.get('/', (req, res) => {
+  res.send('Grains Backend is running.');
+});
 
 app.get('/api/alliya', async (req, res) => {
   const query = (req.query.q || '').toLowerCase().trim();
