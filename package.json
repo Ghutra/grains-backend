@@ -1,7 +1,6 @@
 {
   "name": "grains-backend",
   "version": "1.0.0",
-  "description": "Alliya AI for Grains Hub",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -10,8 +9,5 @@
     "express": "^4.18.2",
     "cors": "^2.8.5",
     "node-fetch": "^2.6.7"
-  },
-  "engines": {
-    "node": ">=14"
   }
 }
