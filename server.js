@@ -1,3 +1,4 @@
+const alliyaRouter = require('./alliya');
 const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch'); // npm install node-fetch@2
@@ -54,11 +55,8 @@ app.get('/', (req, res) => {
   res.send('Grains Backend is running.');
 });
 
-app.get('/api/alliya', async (req, res) => {
-  const query = (req.query.q || '').toLowerCase().trim();
-  if (!query) {
-    return res.json({ reply: 'Ask me about grains, FCL, compliance...' });
-  }
+app.use('/api/alliya', alliyaRouter);
+
 
   const stock = await getStock();
   const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Asia/Dubai' });
