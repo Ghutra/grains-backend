@@ -110,3 +110,15 @@ router.get('/', async (req, res) => {
   );
 
   if (stockMatch) {
+    const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Asia/Dubai' });
+    return res.json({
+      reply: `${stockMatch.name} from ${stockMatch.origin}: ${stockMatch.price} (${stockMatch.stock} available). <a href="https://wa.me/971585521976?text=Inquiry: ${encodeURIComponent(stockMatch.name)}">Book via WhatsApp</a><br><small>Verified: ${timestamp}</small>`
+    });
+  }
+
+  // 3. Fallback
+  res.json({ reply: fallback(query) });
+});
+
+// Export router
+module.exports = router;
