@@ -1,7 +1,6 @@
 // alliya.js — FINAL VERSION FOR RENDER
 const express = require('express');
 const router = express.Router();
-const fetch = require('node-fetch'); // ← THIS LINE IS KEY
 
 // === YOUR DATABASE ===
 const replyDatabase = {
