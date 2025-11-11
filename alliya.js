@@ -1,9 +1,10 @@
-// alliya.js — FINAL VERSION FOR RENDER
+// alliya.js — FINAL VERSION WITH KNOWLEDGE + LIVE STOCK
 const express = require('express');
 const router = express.Router();
 
-// === YOUR DATABASE ===
+// === REPLY DATABASE ===
 const replyDatabase = {
+  // Verified suppliers
   "zia international": "Verified: Zia International, Madina Town, Faisalabad.",
   "adam international": "Verified: Adam International, Faisalabad.",
   "sa rice mills": "Verified: SA Rice Mills, Faisalabad.",
@@ -17,6 +18,8 @@ const replyDatabase = {
   "green and white": "Verified: Green & White Foodstuff Trading, Alras.",
   "si global": "Verified: Si Global, Alras.",
   "sakhi international": "Verified: Sakhi International Foodstuff Trading Co., Alras.",
+
+  // Booking and stock
   "irri 6 broken 100": "Booking Open: Irri 6 Broken 100%, 40Kg PP Bags, C&F Dubai, New Crop 2025, Origin Pakistan — $310.",
   "irri 6 broken 5": "Booking Open: Irri 6 Broken 5%, 40Kg PP Bags, C&F Dubai, New Crop 2025, Origin Pakistan — $380.",
   "1509 creamy sella": "Booking Open: 1509 Creamy Sella, 10x4 40Kg Nonwoven Master Bag, Crop 2025, Origin India — $775.",
@@ -24,26 +27,45 @@ const replyDatabase = {
   "swarna raw": "Booking Open: Swarna Raw & Processed, 18Kg Nonwoven, Crop 2025, Origin India — $415.",
   "irri 6 stock": "Available: Irri 6 Broken 5%, 35Kg PP Bags, FCL — Dubai.",
   "1509 stock": "Available: 1509 Creamy Sella, 10x4 40Kg Nonwoven — Dubai.",
+
+  // Grain types
   "1121": "1121 Basmati is one of the longest grain rice varieties, known for its aroma, elongation, and fluffiness. Verified for export to UAE, EU, and Gulf markets.",
   "1509": "1509 Basmati is a cost-effective long grain with creamy texture. Verified for ritual and pesticide compliance.",
   "sella 1121": "Sella 1121 is available in Dubai. 10x4 40Kg Nonwoven Master Bags. Booking open for Crop 2025.",
   "basmati rice": "Basmati Rice includes 1121 and 1509 grades. Verified suppliers from India and Pakistan are listed.",
   "rice": "Rice options include Irri, Sella, and Basmati. Type a grade or supplier name for verified availability.",
-  "available stock": "Stock availability is updated daily. Type a product name for details.",
-  "booking": "Booking is open for verified batches. Contact booking@grains.ae.",
-  "supplier": "Type a supplier name to check verification.",
+
+  // Knowledge keywords from server.js
+  "compliance": "Grains Hub is verified by Cisco Talos, Norton, Sucuri. SPF/DKIM/DMARC configured. Scan logs on request.",
+  "scan": "Grains Hub is verified by Cisco Talos, Norton, Sucuri. SPF/DKIM/DMARC configured. Scan logs on request.",
+  "trust": "Grains Hub is verified by Cisco Talos, Norton, Sucuri. SPF/DKIM/DMARC configured. Scan logs on request.",
+  "verified": "Grains Hub is verified by Cisco Talos, Norton, Sucuri. SPF/DKIM/DMARC configured. Scan logs on request.",
+  "cisco": "Grains Hub is verified by Cisco Talos, Norton, Sucuri. SPF/DKIM/DMARC configured. Scan logs on request.",
+  "norton": "Grains Hub is verified by Cisco Talos, Norton, Sucuri. SPF/DKIM/DMARC configured. Scan logs on request.",
+  "fcl": "FCL bookings open: India, Pakistan, Thailand. 20ft/40ft. Compliance-checked. <a href='https://wa.me/971585521976?text=FCL Inquiry from Grains Hub'>Book via WhatsApp</a>.",
+  "booking": "FCL bookings open: India, Pakistan, Thailand. 20ft/40ft. Compliance-checked. <a href='https://wa.me/971585521976?text=FCL Inquiry from Grains Hub'>Book via WhatsApp</a>.",
+  "container": "FCL bookings open: India, Pakistan, Thailand. 20ft/40ft. Compliance-checked. <a href='https://wa.me/971585521976?text=FCL Inquiry from Grains Hub'>Book via WhatsApp</a>.",
+  "20ft": "FCL bookings open: India, Pakistan, Thailand. 20ft/40ft. Compliance-checked.",
+  "40ft": "FCL bookings open: India, Pakistan, Thailand. 20ft/40ft. Compliance-checked.",
+  "services": "We offer: Grain verification, FCL logistics, compliance audits, real-time Pulse. Dubai to global.",
+  "service": "We offer: Grain verification, FCL logistics, compliance audits, real-time Pulse. Dubai to global.",
+  "what do you do": "We offer: Grain verification, FCL logistics, compliance audits, real-time Pulse. Dubai to global.",
+  "founder": "Founder: Shahid Bashir. Philosophy: Serve specialists with restraint. Trust earned, not marketed.",
+  "shahid": "Founder: Shahid Bashir. Philosophy: Serve specialists with restraint. Trust earned, not marketed.",
+  "pulse": "Live prices every 60s. Basmati 1121: AED 160/kg. Irri 6: AED 60/kg. <a href='/pulse'>View Pulse</a>",
+  "price": "Live prices every 60s. Basmati 1121: AED 160/kg. Irri 6: AED 60/kg. <a href='/pulse'>View Pulse</a>",
+  "market": "Live prices every 60s. Basmati 1121: AED 160/kg. Irri 6: AED 60/kg. <a href='/pulse'>View Pulse</a>",
+
+  // Location and brand
   "dubai": "Dubai Hub is active and verified. Alliya monitors supplier scans daily.",
   "india": "Indian-origin grains are verified for ritual and pesticide compliance.",
   "pakistan": "Pakistani grains are scanned weekly. Irri and Basmati are available.",
   "alras": "Alras terminal is enabled for Sella and Basmati shipments.",
   "grains hub": "Grains Hub is Dubai’s trusted B2B portal for premium grain trade.",
-  "shahid bashir": "Shahid Bashir is the founder of Grains Hub, blending poetic branding with technical precision.",
-  "founder": "Founder: Shahid Bashir. Based in Dubai and Lahore, leading with trust and emotional discipline."
+  "shahid bashir": "Shahid Bashir is the founder of Grains Hub, blending poetic branding with technical precision."
 };
 
-// === LIVE STOCK (OPTIONAL - REMOVE IF NOT READY) ===
-// Comment out this whole section if stock.json not ready
-/*
+// === LIVE STOCK FETCH (Native fetch, Node 18+)
 const STOCK_URL = 'https://grains.ae/assets/data/stock.json';
 let cachedStock = [];
 let lastFetch = 0;
@@ -63,7 +85,6 @@ async function getStock() {
   }
   return cachedStock;
 }
-*/
 
 // === FALLBACK ===
 function fallback(query) {
@@ -80,22 +101,12 @@ router.get('/', async (req, res) => {
     return res.json({ reply: replyDatabase[query] });
   }
 
-  // 2. Optional: Stock search (commented out until stock.json is live)
-  /*
+  // 2. Check live stock
   const stock = await getStock();
   const stockMatch = stock.find(item =>
     item.name.toLowerCase().includes(query) ||
-    item.origin.toLowerCase().includes(query)
+    item.origin.toLowerCase().includes(query) ||
+    item.type.toLowerCase().includes(query)
   );
+
   if (stockMatch) {
-    return res.json({
-      reply: `${stockMatch.name} from ${stockMatch.origin}: ${stockMatch.price} (${stockMatch.stock} available). <a href="https://wa.me/971585521976?text=Inquiry: ${encodeURIComponent(stockMatch.name)}">Book</a>`
-    });
-  }
-  */
-
-  // 3. Fallback
-  res.json({ reply: fallback(query) });
-});
-
-module.exports = router;
