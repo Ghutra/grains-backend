@@ -96,10 +96,11 @@ router.get('/', async (req, res) => {
   const query = (req.query.q || '').toLowerCase().trim();
   if (!query) return res.json({ reply: 'Ask about rice, suppliers, FCL...' });
 
-  // 1. Check database
-  if (replyDatabase[query]) {
-    return res.json({ reply: replyDatabase[query] });
-  }
+ // 1. Fuzzy match from database
+const matchedKey = Object.keys(replyDatabase).find(key => query.includes(key));
+if (matchedKey) {
+  return res.json({ reply: replyDatabase[matchedKey] });
+}
 
   // 2. Check live stock
   const stock = await getStock();
