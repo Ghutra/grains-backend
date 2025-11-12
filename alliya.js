@@ -118,6 +118,7 @@ if (matchedKey) {
   }
 
   // 3. Fallback
+  console.log('Fallback query:', query); // ✅ This logs to Render
   res.json({ reply: fallback(query) });
 });
 
