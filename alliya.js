@@ -105,10 +105,10 @@ if (matchedKey) {
   // 2. Check live stock
   const stock = await getStock();
   const stockMatch = stock.find(item =>
-    item.name.toLowerCase().includes(query) ||
-    item.origin.toLowerCase().includes(query) ||
-    item.type.toLowerCase().includes(query)
-  );
+  (item.name && item.name.toLowerCase().includes(query)) ||
+  (item.origin && item.origin.toLowerCase().includes(query)) ||
+  (item.type && item.type.toLowerCase().includes(query))
+);
 
   if (stockMatch) {
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Asia/Dubai' });
@@ -118,7 +118,8 @@ if (matchedKey) {
   }
 
   // 3. Fallback
-  console.log('Fallback query:', query); // ✅ This logs to Render
+  const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Asia/Dubai' });
+  console.log(`[Fallback] ${timestamp} — ${query}`);
   res.json({ reply: fallback(query) });
 });
 
